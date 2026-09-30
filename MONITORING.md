@@ -285,6 +285,39 @@ Attach an alertmanager receiver (Slack, email, PagerDuty) to actually notify
 anyone. Grafana also has a simpler built-in alert path under
 **Alerting → Alert rules**, which is quicker for a module submission.
 
+### 5.1 Proving the alerts work
+
+An alert rule you have never seen fire is not a tested alert. This is the
+one-minute reproduction, and it is the demo to give in an interview or
+screenshot for your report:
+
+```powershell
+# 1. Confirm the target is healthy first
+Invoke-RestMethod http://localhost:9090/api/v1/targets | ConvertTo-Json -Depth 5
+
+# 2. Take the API down
+docker compose stop api
+
+# 3. Wait for the `for: 1m` hold period, then check
+Start-Sleep -Seconds 110
+Invoke-RestMethod http://localhost:9090/api/v1/alerts | ConvertTo-Json -Depth 5
+# -> ApiDown fires with severity=critical
+
+# 4. Bring it back and the alert auto-resolves
+docker compose start api
+Start-Sleep -Seconds 60
+Invoke-RestMethod http://localhost:9090/api/v1/rules | ConvertTo-Json -Depth 5
+# -> ApiDown state=inactive again
+```
+
+The same behaviour is visible in the browser at
+<http://localhost:9090/alerts> (green / red rows) and
+<http://localhost:3001/alerting/list>.
+
+Verified end to end: `ApiDown` transitions to `firing` roughly one minute
+after the API is stopped, and returns to `inactive` on its own once the API
+is healthy again. The other four rules correctly stay `inactive` throughout.
+
 ---
 
 ## 6. Deploy-time verification

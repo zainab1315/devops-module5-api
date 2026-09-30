@@ -223,10 +223,14 @@ Replace the repo and live URLs, then add your own screenshot.
 - [x] `npm run lint` is clean
 - [x] `docker compose up` serves API, Prometheus and Grafana
 - [x] Prometheus scrapes the API, all 5 alert rules loaded
-- [x] Grafana dashboard auto-provisioned
+- [x] `ApiDown` alert verified to fire and auto-resolve (see MONITORING.md 5.1)
+- [x] `smoke-test.sh` passes all 7 endpoint checks
+- [x] Graceful shutdown verified: SIGTERM gives exit code 0
+- [x] Tests pass inside a container via `Dockerfile.test`
+- [x] Grafana dashboard auto-provisioned, 8 panels showing live data
 - [x] Docker image builds and the container reports `healthy`
-- [x] GitHub Actions runs are green
-- [ ] Image published to Docker Hub (needs the secrets, Step 4)
+- [x] GitHub Actions runs are green, CD pipeline verified on tag `v1.0.0`
+- [ ] Image published to Docker Hub (needs your secrets, Step 4)
 - [ ] Live URL returns `{"status":"ok"}` from `/health` (needs the deploy, Step 5)
 - [ ] LinkedIn post published
 - [ ] Both links submitted on the dashboard
