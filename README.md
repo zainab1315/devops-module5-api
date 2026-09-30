@@ -69,6 +69,7 @@ devops-module5-project/
 │   └── smoke-test.sh
 ├── Dockerfile                  # multi-stage production build
 ├── Dockerfile.test             # build target that also runs the tests
+├── Dockerfile.test.dockerignore  # per-Dockerfile ignore (keeps `tests` in context)
 ├── docker-compose.yml          # api + prometheus + grafana
 ├── .dockerignore
 ├── .gitignore
@@ -225,6 +226,11 @@ Three workflows, each with a single responsibility.
 11. Always print the container logs, then clean up
 
 Nothing is published from this workflow. It only proves the code is sound.
+
+`Dockerfile.test` exists to prove the tests also pass inside a clean
+container. It needs `Dockerfile.test.dockerignore`, because the shared
+`.dockerignore` excludes `tests` to keep the production build context small -
+without the override, `npm test` fails with "No tests found".
 
 ### `docker-publish.yml` — every push to `main`
 1. Lint + test

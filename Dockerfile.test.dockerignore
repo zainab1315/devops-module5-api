@@ -1,0 +1,23 @@
+# Dockerfile-specific ignore file for Dockerfile.test.
+# Docker gives this precedence over .dockerignore when building that Dockerfile.
+# The difference is that `tests` is NOT excluded here, otherwise the build
+# context would not contain any test files and `npm test` would fail with
+# "No tests found, exiting with code 1".
+node_modules
+npm-debug.log*
+coverage
+.git
+.github
+.gitignore
+.gitattributes
+.env
+.env.*
+!.env.example
+monitoring
+docs
+README.md
+MONITORING.md
+SUBMISSION.md
+docker-compose*.yml
+.vscode
+.idea

@@ -85,7 +85,17 @@ jobs:
       - name: 2. Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: 3. Build image (no push)
+      - name: 3. Verify the tests also pass inside a clean container
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile.test
+          push: false
+          load: true
+          tags: devops-module5-api:test
+          cache-from: type=gha
+
+      - name: 4. Build image (no push)
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -96,10 +106,10 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: 4. Start container
+      - name: 5. Start container
         run: docker run -d --name module5-ci -p 3000:3000 devops-module5-api:ci
 
-      - name: 5. Wait for the API to become healthy
+      - name: 6. Wait for the API to become healthy
         run: |
           for i in $(seq 1 30); do
             if curl -fsS http://localhost:3000/health; then
@@ -114,16 +124,16 @@ jobs:
           docker logs module5-ci
           exit 1
 
-      - name: 6. Smoke test the endpoints
+      - name: 7. Smoke test the endpoints
         run: |
           curl -fsS http://localhost:3000/       | tee /dev/stderr | grep -q "REST API is running"
           curl -fsS http://localhost:3000/api/items | grep -q '"count"'
           curl -fsS http://localhost:3000/metrics  | grep -q "api_http_requests_total"
 
-      - name: 7. Show container logs
+      - name: 8. Show container logs
         if: always()
         run: docker logs module5-ci
 
-      - name: 8. Clean up
+      - name: 9. Clean up
         if: always()
         run: docker rm -f module5-ci || true
