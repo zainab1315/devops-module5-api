@@ -8,6 +8,13 @@ monitoring stack.
 Pipeline:  git push  ->  lint + tests  ->  docker build  ->  docker push  ->  deploy  ->  monitor
 ```
 
+| | |
+|---|---|
+| Repository | <https://github.com/zainab1315/devops-module5-api> |
+| Docker Hub | <https://hub.docker.com/r/zainab1315/devops-module5-api> |
+| Live API | <https://devops-module5-api.onrender.com/health> |
+| Stack | Node.js 20 · Express · Jest · Docker · GitHub Actions · Prometheus · Grafana |
+
 ---
 
 ## 1. Project structure

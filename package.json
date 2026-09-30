@@ -22,7 +22,7 @@
     "docker",
     "monitoring"
   ],
-  "author": "Your Name",
+  "author": "zainab1315",
   "license": "MIT",
   "dependencies": {
     "compression": "^1.7.4",

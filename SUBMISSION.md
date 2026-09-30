@@ -5,17 +5,17 @@ update and submit both links on your dashboard.
 
 ---
 
-## Step 0 — Fill in your details
+## Step 0 â€” Fill in your details
 
 Open these files and replace the placeholders:
 
-- [ ] `package.json` → `author`
-- [ ] `README.md` → title section
-- [ ] `SUBMISSION.md` → the `YOUR_` placeholders in Step 5
+- [ ] `package.json` â†’ `author`
+- [ ] `README.md` â†’ title section
+- [ ] `SUBMISSION.md` â†’ the `YOUR_` placeholders in Step 5
 
 ---
 
-## Step 1 — Run and test locally
+## Step 1 â€” Run and test locally
 
 ```powershell
 cd D:\devops-module5-project
@@ -42,7 +42,7 @@ Stop the app with `Ctrl+C`.
 
 ---
 
-## Step 2 — Run the full Docker stack
+## Step 2 â€” Run the full Docker stack
 
 Docker Desktop must be running.
 
@@ -82,7 +82,7 @@ docker compose down
 
 ---
 
-## Step 3 — Create the GitHub repository
+## Step 3 â€” Create the GitHub repository
 
 ```powershell
 git init -b main
@@ -91,28 +91,28 @@ git status                     # check nothing sensitive is staged
 git commit -m "feat: initial commit - Express REST API with tests, Docker, CI/CD and monitoring"
 ```
 
-Verify `node_modules/` and `.env` are **not** listed — `.gitignore` handles both.
+Verify `node_modules/` and `.env` are **not** listed â€” `.gitignore` handles both.
 
 Create the repo on GitHub (private or public), then:
 
 ```powershell
-git remote add origin https://github.com/YOUR_USERNAME/devops-module5-api.git
+git remote add origin https://github.com/zainab1315/devops-module5-api.git
 git push -u origin main
 ```
 
 `ci.yml` and `docker-publish.yml` trigger on this push. Watch them run under
 the **Actions** tab. Because there are no secrets yet, the push step will
-fail — that is expected at this point.
+fail â€” that is expected at this point.
 
 ---
 
-## Step 4 — Add the secrets
+## Step 4 â€” Add the secrets
 
 ### Docker Hub
 
-1. <https://hub.docker.com> → sign up
-2. **Account Settings → Personal access tokens → Generate new token** → Read/Write → copy it
-3. GitHub → your repo → **Settings → Secrets and variables → Actions → New repository secret**
+1. <https://hub.docker.com> â†’ sign up
+2. **Account Settings â†’ Personal access tokens â†’ Generate new token** â†’ Read/Write â†’ copy it
+3. GitHub â†’ your repo â†’ **Settings â†’ Secrets and variables â†’ Actions â†’ New repository secret**
 
 Add these three:
 
@@ -122,7 +122,7 @@ Add these three:
 | `DOCKERHUB_TOKEN` | the access token (not your password) |
 | `RENDER_DEPLOY_HOOK` | leave empty for now, see Step 5 |
 
-Confirm each appears under **Settings → Secrets and variables → Actions**.
+Confirm each appears under **Settings â†’ Secrets and variables â†’ Actions**.
 
 ### Re-run the pipeline
 
@@ -132,7 +132,7 @@ git push
 ```
 
 `docker-publish.yml` should now go green and your image appears at
-<https://hub.docker.com/r/YOUR_USERNAME/devops-module5-api>.
+<https://hub.docker.com/r/zainab1315/devops-module5-api>.
 
 ### Release with a version tag
 
@@ -141,19 +141,19 @@ git tag v1.0.0
 git push origin v1.0.0
 ```
 
-This runs `cd.yml`: test → build → push → Trivy scan → deploy → release.
+This runs `cd.yml`: test â†’ build â†’ push â†’ Trivy scan â†’ deploy â†’ release.
 
 ---
 
-## Step 5 — Deploy (pick one)
+## Step 5 â€” Deploy (pick one)
 
-### Option A — Render (easiest, free tier)
+### Option A â€” Render (easiest, free tier)
 
-1. <https://render.com> → sign up with GitHub
-2. **New → Blueprint** → connect `YOUR_USERNAME/devops-module5-api`
-3. Render reads `render.yaml` automatically → click **Apply**
+1. <https://render.com> â†’ sign up with GitHub
+2. **New â†’ Blueprint** â†’ connect `zainab1315/devops-module5-api`
+3. Render reads `render.yaml` automatically â†’ click **Apply**
 4. Once it deploys, copy the service URL, e.g. `https://devops-module5-api.onrender.com`
-5. Service → **Settings → Deploy → Deploy Hook** → copy the URL
+5. Service â†’ **Settings â†’ Deploy â†’ Deploy Hook** â†’ copy the URL
 6. Add it as the `RENDER_DEPLOY_HOOK` secret in GitHub
 7. Test the live API:
 
@@ -164,7 +164,7 @@ Invoke-RestMethod https://devops-module5-api.onrender.com/health
 Note: the free tier sleeps after 15 minutes idle, so the first request after a
 pause takes ~30 seconds. Mention this in your write-up.
 
-### Option B — Railway
+### Option B â€” Railway
 
 ```powershell
 npm i -g @railway/cli
@@ -175,37 +175,37 @@ railway up
 
 `railway.json` sets the Dockerfile builder and the `/health` check.
 
-### Option C — AWS (ECR + App Runner)
+### Option C â€” AWS (ECR + App Runner)
 
 Push to Amazon ECR, then create an App Runner service from that image with the
 health check path `/health`. Show the Terraform or console steps in your report.
 
 ---
 
-## Step 6 — LinkedIn post
+## Step 6 â€” LinkedIn post
 
 ```markdown
-Module 5 of my internship is done — DevOps, CI/CD & Monitoring. 🚀
+Module 5 of my internship is done â€” DevOps, CI/CD & Monitoring. ðŸš€
 
 I built and shipped a production-style REST API end to end:
 
-🔹 Node.js + Express REST API with a full CRUD resource
-🔹 35 unit and integration tests (Jest + Supertest) at ~98% coverage
-🔹 ESLint gating the pipeline, plus enforced coverage thresholds
-🔹 Multi-stage Dockerfile (alpine, non-root user, HEALTHCHECK)
-🔹 Docker Compose stack: API + Prometheus + Grafana
-🔹 GitHub Actions CI → lint, test, build, smoke test, coverage artifacts
-🔹 GitHub Actions CD → Docker Hub push, Trivy scan, Render deploy, release
-🔹 Observability: structured JSON logs, /health + /health/ready probes,
+ðŸ”¹ Node.js + Express REST API with a full CRUD resource
+ðŸ”¹ 35 unit and integration tests (Jest + Supertest) at ~98% coverage
+ðŸ”¹ ESLint gating the pipeline, plus enforced coverage thresholds
+ðŸ”¹ Multi-stage Dockerfile (alpine, non-root user, HEALTHCHECK)
+ðŸ”¹ Docker Compose stack: API + Prometheus + Grafana
+ðŸ”¹ GitHub Actions CI â†’ lint, test, build, smoke test, coverage artifacts
+ðŸ”¹ GitHub Actions CD â†’ Docker Hub push, Trivy scan, Render deploy, release
+ðŸ”¹ Observability: structured JSON logs, /health + /health/ready probes,
    Prometheus metrics and a provisioned Grafana dashboard
 
 The pipeline is fully automated: `git push` runs the tests, builds and pushes
 the image to Docker Hub, deploys to Render and verifies the live health
 endpoint before it reports success.
 
-Tech: Node.js 20 · Express · Jest · Docker · GitHub Actions · Prometheus · Grafana
+Tech: Node.js 20 Â· Express Â· Jest Â· Docker Â· GitHub Actions Â· Prometheus Â· Grafana
 
-Repo: https://github.com/YOUR_USERNAME/devops-module5-api
+Repo: https://github.com/zainab1315/devops-module5-api
 Live:  https://devops-module5-api.onrender.com/health
 
 #DevOps #CICD #Docker #GitHubActions #Monitoring #Prometheus #Grafana #Internship
@@ -215,7 +215,7 @@ Replace the repo and live URLs, then add your own screenshot.
 
 ---
 
-## Step 7 — Final verification
+## Step 7 â€” Final verification
 
 - [ ] `npm test` passes locally
 - [ ] `npm run lint` is clean
