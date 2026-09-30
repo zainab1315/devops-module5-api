@@ -1,0 +1,21 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - /etc/prometheus/alerts.yml
+
+scrape_configs:
+  # The Node.js API - scrapes the /metrics endpoint exported by prom-client
+  - job_name: 'module5-api'
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['api:3000']
+        labels:
+          service: 'devops-module5-api'
+          environment: 'docker'
+
+  # Prometheus scraping itself, so you can see it is alive
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']

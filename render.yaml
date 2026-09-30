@@ -1,0 +1,20 @@
+services:
+  # Same image as docker-compose.yml but without Prometheus/Grafana,
+  # which makes the pipeline much faster on a free Render plan.
+
+  web:
+    type: web
+    name: devops-module5-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: LOG_LEVEL
+        value: info
+      - key: SERVICE_NAME
+        value: devops-module5-api

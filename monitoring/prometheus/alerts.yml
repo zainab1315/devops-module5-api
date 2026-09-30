@@ -1,0 +1,51 @@
+groups:
+  - name: module5-api
+    interval: 30s
+    rules:
+      - alert: ApiDown
+        expr: up{job="module5-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Module 5 API is not responding to health checks"
+          description: "Prometheus has been unable to scrape {{ $labels.instance }} for over 1 minute."
+
+      - alert: HighErrorRate
+        expr: |
+          sum(rate(api_http_requests_total{status_code=~"5.."}[5m]))
+          / sum(rate(api_http_requests_total[5m])) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "More than 5% of API requests are failing"
+          description: "Current 5xx ratio is {{ $value | humanizePercentage }}."
+
+      - alert: HighLatency
+        expr: |
+          histogram_quantile(0.95, sum(rate(api_http_request_duration_seconds_bucket[5m])) by (le)) > 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "p95 request latency above 1 second"
+          description: "p95 latency is currently {{ $value | humanizeDuration }}."
+
+      - alert: HighMemoryUsage
+        expr: api_process_resident_memory_bytes > 400000000
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "API memory usage above 400 MB"
+          description: "Resident memory is {{ $value | humanize1024 }}B - possible leak."
+
+      - alert: EventLoopLag
+        expr: api_nodejs_eventloop_lag_seconds > 0.1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Node.js event loop lag above 100ms"
+          description: "Event loop lag is {{ $value | humanizeDuration }} - the event loop is blocked."
