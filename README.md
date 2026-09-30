@@ -1,5 +1,10 @@
 # Module 5 — DevOps, CI/CD & Monitoring
 
+[![CI](https://github.com/zainab1315/devops-module5-api/actions/workflows/ci.yml/badge.svg)](https://github.com/zainab1315/devops-module5-api/actions/workflows/ci.yml)
+[![Build and Push Image](https://github.com/zainab1315/devops-module5-api/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/zainab1315/devops-module5-api/actions/workflows/docker-publish.yml)
+[![CD](https://github.com/zainab1315/devops-module5-api/actions/workflows/cd.yml/badge.svg)](https://github.com/zainab1315/devops-module5-api/actions/workflows/cd.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 A production-style Node.js / Express REST API with unit tests, Docker
 containerisation, a GitHub Actions CI/CD pipeline, and a Prometheus + Grafana
 monitoring stack.
