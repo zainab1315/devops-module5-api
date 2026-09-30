@@ -108,16 +108,21 @@ annotation instead of failing the whole run.
 
 ### Docker Hub
 
-1. <https://hub.docker.com> -> sign up
-2. **Account Settings -> Personal access tokens -> Generate new token** -> Read/Write -> copy it
+1. **Create the repository first** - <https://hub.docker.com/repositories/new>
+   - namespace `shuknathazainab12`, name `devops-module5-api`, public
+   - this is required: Docker Hub rejects a push to a repository that does not exist
+2. **Generate a token with write access** - <https://hub.docker.com/settings/security/tokens>
+   - *Generate new token*, then choose **Read & Write** under Repository Access
+   - a read-only token will log in successfully but fail the push with
+     `access token has insufficient scopes`
 3. GitHub -> your repo -> **Settings -> Secrets and variables -> Actions -> New repository secret**
 
 Add these two:
 
 | Secret name | Value |
 |-------------|-------|
-| `DOCKERHUB_USERNAME` | your Docker Hub username (`zainab1315`) |
-| `DOCKERHUB_TOKEN` | the access token (not your Docker Hub password) |
+| `DOCKERHUB_USERNAME` | `shuknathazainab12` |
+| `DOCKERHUB_TOKEN` | the new access token (not your Docker Hub password) |
 
 Confirm each appears under **Settings -> Secrets and variables -> Actions**.
 
@@ -129,7 +134,11 @@ git push
 ```
 
 `docker-publish.yml` now runs for real and the image appears at
-<https://hub.docker.com/r/zainab1315/devops-module5-api>.
+<https://hub.docker.com/r/shuknathazainab12/devops-module5-api>.
+
+> Note: your Docker Hub username (`shuknathazainab12`) is different from your
+> GitHub username (`zainab1315`). That is fine, the workflows read the image
+> name from the secret.
 
 ### Release with a version tag
 
@@ -242,6 +251,9 @@ Replace the repo and live URLs, then add your own screenshot.
 | Problem | Fix |
 |---------|-----|
 | `npm ci` fails: lock file out of sync | `rm package-lock.json; npm install` then commit |
+| `access token has insufficient scopes` | The Docker Hub token is read-only. Generate a new one with **Read & Write** |
+| `unauthorized` when creating a repo via the API | Same cause: the token cannot create repositories, so create it in the browser |
+| `requested access to the resource is denied` on push | The `devops-module5-api` repository does not exist yet on Docker Hub |
 | `DOCKERHUB_TOKEN` push denied | Use an access token, not your Docker Hub password |
 | `docker compose` command not found | Add `C:\Program Files\Docker\Docker\resources\bin` to PATH |
 | Port 3000 already in use | `docker compose down`, or change the port mapping |

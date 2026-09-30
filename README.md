@@ -16,7 +16,7 @@ Pipeline:  git push  ->  lint + tests  ->  docker build  ->  docker push  ->  de
 | | |
 |---|---|
 | Repository | <https://github.com/zainab1315/devops-module5-api> |
-| Docker Hub | <https://hub.docker.com/r/zainab1315/devops-module5-api> |
+| Docker Hub | <https://hub.docker.com/r/shuknathazainab12/devops-module5-api> |
 | Live API | <https://devops-module5-api.onrender.com/health> |
 | Stack | Node.js 20 · Express · Jest · Docker · GitHub Actions · Prometheus · Grafana |
 
@@ -248,11 +248,11 @@ without the override, `npm test` fails with "No tests found".
 
 ### Docker Hub setup
 
-1. Create a free account and a repository named `devops-module5-api`
-2. Create an access token: **Account Settings → Personal access tokens → Read/Write**
+1. Create a repository named `devops-module5-api` — it must exist before you can push
+2. Create an access token: **Account Settings → Personal access tokens → Generate new token → Read & Write** (a read-only token authenticates but fails on push with "access token has insufficient scopes")
 3. In your GitHub repo go to **Settings → Secrets and variables → Actions → New repository secret**
 4. Add:
-   - `DOCKERHUB_USERNAME` — your Docker Hub username
+   - `DOCKERHUB_USERNAME` — your Docker Hub username (`shuknathazainab12`)
    - `DOCKERHUB_TOKEN` — the access token (not your password)
    - `RENDER_DEPLOY_HOOK` — the Render deploy hook URL (see `SUBMISSION.md`)
 
