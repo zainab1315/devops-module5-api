@@ -108,7 +108,7 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "expr": "sum(rate(api_http_requests_total{status_code=~\"5..\"}[5m])) / sum(rate(api_http_requests_total[5m]))",
+          "expr": "(sum(rate(api_http_requests_total{status_code=~\"5..\"}[5m])) or vector(0)) / clamp_min(sum(rate(api_http_requests_total[5m])), 0.000001)",
           "legendFormat": "error ratio",
           "refId": "A"
         }

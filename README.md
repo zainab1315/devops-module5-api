@@ -22,6 +22,18 @@ Pipeline:  git push  ->  lint + tests  ->  docker build  ->  docker push  ->  de
 
 ---
 
+## Screenshots
+
+**Grafana dashboard** (provisioned, live metrics from the Docker stack)
+
+![Grafana dashboard](docs/grafana-dashboard.png)
+
+**Prometheus scrape targets** — the API target reporting `up`
+
+![Prometheus targets](docs/prometheus-targets.png)
+
+---
+
 ## 1. Project structure
 
 ```
