@@ -114,16 +114,18 @@ jobs:
     environment:
       name: production
       url: https://devops-module5-api.onrender.com
+    # The secrets context is not available in a step-level `if:`, so the hook
+    # is exposed as a job-level env var and the steps gate on `env` instead.
+    env:
+      RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
 
     steps:
       - name: 1. Trigger the Render deploy hook
-        if: ${{ secrets.RENDER_DEPLOY_HOOK != '' }}
-        run: curl -fsS -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
-        env:
-          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        if: env.RENDER_DEPLOY_HOOK != ''
+        run: curl -fsS -X POST "$RENDER_DEPLOY_HOOK"
 
       - name: 2. Wait and verify the live health endpoint
-        if: ${{ secrets.RENDER_DEPLOY_HOOK != '' }}
+        if: env.RENDER_DEPLOY_HOOK != ''
         run: |
           for i in $(seq 1 30); do
             echo "Checking https://devops-module5-api.onrender.com/health (attempt $i)"
@@ -138,7 +140,7 @@ jobs:
           exit 1
 
       - name: 3. Skip - no Render hook configured
-        if: ${{ secrets.RENDER_DEPLOY_HOOK == '' }}
+        if: env.RENDER_DEPLOY_HOOK == ''
         run: echo "RENDER_DEPLOY_HOOK secret not set - skipping the Render deploy step"
 
   # ------------------------------------------------------------------ #

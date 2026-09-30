@@ -16,6 +16,23 @@ permissions:
 
 jobs:
   # ------------------------------------------------------------------ #
+  # Job 0: validate the workflow files themselves
+  # ------------------------------------------------------------------ #
+  validate-workflows:
+    name: Validate Workflows
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Catches invalid `secrets`/`if:` expressions and other syntax problems
+      # that otherwise make GitHub reject a workflow before it can run.
+      - name: Lint GitHub Actions workflow files
+        uses: docker://rhysd/actionlint:1.7.7
+        with:
+          args: -color .github/workflows/*.yml
+
+  # ------------------------------------------------------------------ #
   # Job 1: lint + unit tests on every push and pull request
   # ------------------------------------------------------------------ #
   test:
